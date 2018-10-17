@@ -123,10 +123,10 @@ $(function(){
 
     <div class="col-md-9" role="main" id="markdown-content">
       <div class="chapter-prev chapter-top pull-left">
-    <a prev-chapter href="../db/introduction.html"><i class="icon-arrow-left"></i> 数据库使用介绍</a>
+    <a prev-chapter href="../db/introduction.html"><i class="fa fa-long-arrow-left"></i> 数据库使用介绍</a>
 </div>
 <div class="chapter-next chapter-top pull-right">
-    <a next-chapter href="../db/multidb.html">多数据库连接处理 <i class="icon-arrow-right"></i></a>
+    <a next-chapter href="../db/multidb.html">多数据库连接处理 <i class="fa fa-long-arrow-right"></i></a>
 </div>
 
       <h1 id="title_1">ORM基本使用<a class="anchor" href="#title_1">&para;</a></h1>
@@ -788,7 +788,33 @@ User.filter(User.c.year&lt;18).remove()</code></pre>
 #等价于
 User.filter(User.c.year&lt;18).count()</code></pre>
 <p>注意在使用count时，uliweb自动根据查询中是否存在：limit, group_by, join来决定是直接使用 <code>select count(*) from table where condition</code> 的形式，还是采用 <code>select count(*) as count_1 from (select * from table where)</code> 的形式。因为，一旦存在 limit, group_by, join，在计数时统计的是结果集，而第一种只是根据条件来处理的。所以对于 limit 这样的查询要按 结果集来统计。同时要注意，因为是对结果集来统计，所以它是先进行了一个子查询，从总体效果上来看，速度会慢一些。</p>
-<h4 id="title_1-5-32-21">其它 API<a class="anchor" href="#title_1-5-32-21">&para;</a></h4>
+<h4 id="title_1-5-32-21">树型关系处理<a class="anchor" href="#title_1-5-32-21">&para;</a></h4>
+<p>有时我们需要在数据库中通过二维表来定义树型关系，比如定义 <code>parent</code> 字段表示父结点。为了省事，UliORM 提供了 <code>get_tree</code> 方法可以方便遍历树型关系。</p>
+<p>基本使用如：</p>
+<pre class="prettyprint "><code>Depart.get_tree(parent=None)</code></pre>
+<p>上述例子表示，遍历父结点为 <code>None</code> 的树形结构。返回值是一个generator，可以使用for循环来获取结果。</p>
+<p>完整的API为：</p>
+<pre class="prettyprint "><code>get_tree(condition,
+        parent_field, #父结点字段名，缺省为 `parent`
+        parent,     #父结点的值
+        parent_order_by, #父结点查询排序字段
+        current,    #当前结点的值
+        order_by,   #子结点查询排序字段，
+        id_field,   #current值对应的字段名
+        mode,       #遍历顺序 'wide' 广度优先， 'deep' 深度优先，缺省为 'wide'
+        )</code></pre>
+<p><code>get_tree</code> 的工作分为两步：</p>
+<ol>
+<li><p>查询父结点。这里有两种方式:</p>
+<ol>
+<li>指定 <code>parent</code> 字段来查询，因此会用到 <code>parent_field</code> 和 <code>parent</code> 参数</li>
+<li>指定id为某个值，因此会用到 <code>current</code> 和 <code>id_field</code></li>
+</ol>
+<p>对于更加复杂的情况，可以传入parent参数, 它可以是一个条件</p></li>
+<li><p>查出父结点之后，再递归查出子结点。</p>
+<p><code>condition</code> 是用在查子结点的。 <code>parent_order_by</code> 用在得到父结点时对父结点进行排序。</p></li>
+</ol>
+<h4 id="title_1-5-32-22">其它 API<a class="anchor" href="#title_1-5-32-22">&para;</a></h4>
 <dl>
 <dt>bind(metadata=None, auto_create=False)</dt>
 <dd><p>绑定当前的类到一个metadata对象上。如果 <code>auto_create</code> 为 <code>True</code>, 则将 自动建表。</p>
@@ -809,7 +835,7 @@ User.filter(User.c.year&lt;18).count()</code></pre>
 <p>这样在缺省情况下，数据库连接名为 <code>default</code> .</p>
 </dd>
 </dl><h3 id="title_1-5-33">关系级<a class="anchor" href="#title_1-5-33">&para;</a></h3>
-<h4 id="title_1-5-33-22">一对一(One to One)<a class="anchor" href="#title_1-5-33-22">&para;</a></h4>
+<h4 id="title_1-5-33-23">一对一(One to One)<a class="anchor" href="#title_1-5-33-23">&para;</a></h4>
 <p>一对一关系没什么特别的，例如:</p>
 <pre class="prettyprint "><code>&gt;&gt;&gt; class Test(Model):
 ...     username = Field(str)
@@ -826,7 +852,7 @@ User.filter(User.c.year&lt;18).count()</code></pre>
 <p>注意，关系的建立是在相关的对象创建之后，而不是会根据关系自动创建对应的对象。</p>
 
 </div>
-<h4 id="title_1-5-33-23">多对一(Many to One)<a class="anchor" href="#title_1-5-33-23">&para;</a></h4>
+<h4 id="title_1-5-33-24">多对一(Many to One)<a class="anchor" href="#title_1-5-33-24">&para;</a></h4>
 <pre class="prettyprint "><code>&gt;&gt;&gt; class Test(Model):
 ...     username = Field(str)
 ...     year = Field(int)
@@ -837,7 +863,7 @@ User.filter(User.c.year&lt;18).count()</code></pre>
 &gt;&gt;&gt; b = Test1(name='user', test=a).save()
 &gt;&gt;&gt; c = Test1(name='aaaa', test=a).save()</code></pre>
 <p>根据上面的代码， Test:Test1 是一个 1:n 关系。并且 <code>b.test</code> 是对象 <code>a</code> 。但是 <code>a.tttt</code> 将是反向的结果集，它可能不止一个对象。所以 <code>a.tttt</code> 将返回一个 <code>Result</code> 对象。并且这个结果集对象将绑定到 Test1 Model，所以结果集的 <code>all()</code> 和 <code>filter()</code> 方法将只返回 Test1 对象。更多的细节可以查看 <code>Result</code> 的描述。</p>
-<h4 id="title_1-5-33-24">多对多(Many to Many)<a class="anchor" href="#title_1-5-33-24">&para;</a></h4>
+<h4 id="title_1-5-33-25">多对多(Many to Many)<a class="anchor" href="#title_1-5-33-25">&para;</a></h4>
 <pre class="prettyprint "><code>&gt;&gt;&gt; class User(Model):
 ...     username = Field(CHAR, max_length=20)
 ...     year = Field(int)
@@ -1142,10 +1168,10 @@ audit.pre_delete = 'pre_delete'</code></pre>
 
 
       <div class="chapter-prev chapter-down pull-left">
-    <a prev-chapter href="../db/introduction.html"><i class="icon-arrow-left"></i> 数据库使用介绍</a>
+    <a prev-chapter href="../db/introduction.html"><i class="fa fa-long-arrow-left"></i> 数据库使用介绍</a>
 </div>
 <div class="chapter-next chapter-down pull-right">
-    <a next-chapter href="../db/multidb.html">多数据库连接处理 <i class="icon-arrow-right"></i></a>
+    <a next-chapter href="../db/multidb.html">多数据库连接处理 <i class="fa fa-long-arrow-right"></i></a>
 </div>
     </div>
   </div>

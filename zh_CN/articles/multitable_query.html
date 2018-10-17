@@ -123,7 +123,7 @@ $(function(){
 
     <div class="col-md-9" role="main" id="markdown-content">
       <div class="chapter-prev chapter-top pull-left">
-    <a prev-chapter href="../articles/sqlite_timeout.html"><i class="icon-arrow-left"></i> uliweb里sqlite的timeout参数</a>
+    <a prev-chapter href="../articles/sqlite_timeout.html"><i class="fa fa-long-arrow-left"></i> uliweb里sqlite的timeout参数</a>
 </div>
 
 
@@ -197,10 +197,32 @@ class Department(Model):
         UserGroup.users.table.c.user_id==user.id
     ).one()
     return d</code></pre>
+<h2 id="title_1-3">直接写sql的例子<a class="anchor" href="#title_1-3">&para;</a></h2>
+<pre class="prettyprint "><code>@expose('/server_list')
+def server_list():
+    from uliweb.orm import do_
+
+    sql = '''select
+    server.id,
+    server.host_name,
+    server.ip_int as ip,
+    server.nickname,
+    server.site,
+    server.comment,
+    (select count(*) from service where service.server=server.id),
+    (select count(*) from backup inner join service where service.server=server.id and backup.service=service.id),
+    (select count(*) from backup where backup.backup_server=server.id)
+    from server where server.type!='workstation' and server.type!='jenkins_slave' and server.status='Active'
+'''
+    result = do_(sql)
+    keys = ["server_id","hostname","ip","nickname","site","comment","num_service","num_backup_from","num_backup_to"]
+    server_list = [dict(zip(keys,i)) for i in result]
+    return {"server_list":server_list}</code></pre>
+<p>此例子没有进行字符串拼接,如果有拼接的情况,为了防止SQL注入,可以参考[Using Textual SQL](http://docs.sqlalchemy.org/en/latest/core/tutorial.html#using-textual-sql)用text来防止</p>
 
 
       <div class="chapter-prev chapter-down pull-left">
-    <a prev-chapter href="../articles/sqlite_timeout.html"><i class="icon-arrow-left"></i> uliweb里sqlite的timeout参数</a>
+    <a prev-chapter href="../articles/sqlite_timeout.html"><i class="fa fa-long-arrow-left"></i> uliweb里sqlite的timeout参数</a>
 </div>
 
     </div>

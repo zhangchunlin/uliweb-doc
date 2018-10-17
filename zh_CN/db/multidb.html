@@ -123,10 +123,10 @@ $(function(){
 
     <div class="col-md-9" role="main" id="markdown-content">
       <div class="chapter-prev chapter-top pull-left">
-    <a prev-chapter href="../db/orm.html"><i class="icon-arrow-left"></i> ORM基本使用</a>
+    <a prev-chapter href="../db/orm.html"><i class="fa fa-long-arrow-left"></i> ORM基本使用</a>
 </div>
 <div class="chapter-next chapter-top pull-right">
-    <a next-chapter href="../db/faq.html">F&amp;Q <i class="icon-arrow-right"></i></a>
+    <a next-chapter href="../db/faq.html">F&amp;Q <i class="fa fa-long-arrow-right"></i></a>
 </div>
 
       <h1 id="title_1">多数据库连接处理<a class="anchor" href="#title_1">&para;</a></h1>
@@ -176,14 +176,14 @@ models          与之相关的所有的Model对象信息</code></pre>
 <pre class="prettyprint "><code>engine = get_connection()</code></pre>
 <p>因此我们可以了解，一旦项目启动，定义的数据库的引擎对象将直接被创建。但是此时真 正用来与数据库通讯的连接对象还没有创建，它们将随着请求被自动创建和管理。这个连 接对象就是下面的 Session。</p>
 <h3 id="title_1-3-1">Model的连接设置<a class="anchor" href="#title_1-3-1">&para;</a></h3>
-<p>在Uliweb中，每张表如果要使用首先要在settings.ini中进行配置，原来的写法是:</p>
+<p>在Uliweb中，有多数据库配置需求的可以增加 MODELS_CONFIG 配置，例子可以参考测试项目中的<a class="outter" href="https://github.com/limodou/uliweb/blob/master/test/test_multidb/apps/blog/settings.ini">代码</a>，例子：</p>
 <pre class="prettyprint "><code>[MODELS]
-user = 'uliweb.contrib.auth.models.User'</code></pre>
-<p>现在的写法是:</p>
-<pre class="prettyprint "><code>[MODELS]
-user = 'uliweb.contrib.auth.models.User', 'test'
-user = 'uliweb.contrib.auth.models.User', ['default', 'test']</code></pre>
-<p>比原来多了一项，就是数据库连接名。如果可以同时在多个连接中使用，后面的连接将是 一个list值。原来的写法依然是有效的，如果不提供，则会认为使用Model属性的定义，如 果Model属性定义也没有，则认为使用 default 连接。</p>
+blog = '#{appname}.models.Blog'
+category = '#{appname}.models.Category'
+
+[MODELS_CONFIG]
+blog = {'engines':['default', 'b']}
+category = {'engines':'b'}</code></pre>
 <p>当一个Model设置了多个连接名，要么在运行时动态指定，要么uliweb会抛出异常。 所以为了动态指定，uliorm的许多函数和方法都添加了 <code>engine_name</code> 参数，比如:</p>
 <pre class="prettyprint "><code>Model.connect(engine_name)
 Result.connect(engine_name)</code></pre>
@@ -208,10 +208,10 @@ Result.connect(engine_name)</code></pre>
 
 
       <div class="chapter-prev chapter-down pull-left">
-    <a prev-chapter href="../db/orm.html"><i class="icon-arrow-left"></i> ORM基本使用</a>
+    <a prev-chapter href="../db/orm.html"><i class="fa fa-long-arrow-left"></i> ORM基本使用</a>
 </div>
 <div class="chapter-next chapter-down pull-right">
-    <a next-chapter href="../db/faq.html">F&amp;Q <i class="icon-arrow-right"></i></a>
+    <a next-chapter href="../db/faq.html">F&amp;Q <i class="fa fa-long-arrow-right"></i></a>
 </div>
     </div>
   </div>
