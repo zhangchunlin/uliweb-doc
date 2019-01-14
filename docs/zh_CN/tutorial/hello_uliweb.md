@@ -26,12 +26,17 @@ uliweb makeproject project
 
 
 ```
-|-- .gitignore
-|-- apps/
-|   |-- local_settings.ini
-|   `-- settings.ini
-|-- setup.py   
-`-- wsgi_handler.py
+├── apps
+│   ├── __init__.py
+│   ├── local_settings.ini
+│   └── settings.ini
+├── doc
+│   └── readme.txt
+├── .gitignore
+├── README.md
+├── requirements.txt
+├── setup.py
+└── wsgi_handler.py
 ```
 
 
@@ -49,14 +54,13 @@ uliweb makeapp Hello
 
 
 ```
-|-- __init__.py
-|-- conf.py
-|-- info.ini
-|-- static/
-|   `-- readme.txt
-|-- templates/
-|   `-- readme.txt
-`-- views.py
+├── __init__.py
+├── README.md
+├── static
+│   └── readme.txt
+├── templates
+│   └── readme.txt
+└── views.py
 ```
 
 
@@ -67,7 +71,7 @@ uliweb makeapp Hello
 
 ```
 #coding=utf-8
-from uliweb import expose
+from uliweb import expose, functions
 
 @expose('/')
 def index():

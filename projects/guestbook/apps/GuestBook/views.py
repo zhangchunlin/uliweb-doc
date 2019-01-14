@@ -1,15 +1,16 @@
 #coding=utf-8
 from uliweb import expose, functions
+from uliweb.utils.textconvert import text2html
 
 @expose('/')
 def index():
     Note = functions.get_model('note')
     notes = Note.all().order_by(Note.c.datetime.desc())
-    return {'notes':notes}
+    return {'notes':notes,'text2html':text2html}
 
 @expose('/new')
 def new_comment():
-    from forms import NoteForm
+    from .forms import NoteForm
     import datetime
     
     Note = functions.get_model('note')

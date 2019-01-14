@@ -256,7 +256,7 @@ INSTALLED_APPS = [
     'uliweb.contrib.staticfiles',
     'uliweb.contrib.orm',
     'todo',
-    ]
+]
 
 [SITE]
 SITE_NAME = '任务跟踪'
