@@ -6,7 +6,7 @@
 
 ## 准备
 
-安装请看 [安装Uliweb](installation.html)
+安装请看 [安装Uliweb](../installation.html)
 
 
 ## 创建新的项目

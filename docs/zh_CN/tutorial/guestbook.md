@@ -581,6 +581,6 @@ uliweb runserver
 1. 结构的了解，包括：Uliweb的app组织，settings.ini的简单使用，view函数与模板文件
     的对应关系
 
-这里演示的View的处理还是基于函数的方式 ，在另一篇 [Simple Todo (Uliweb 版本) 之 基础篇](basic.html)
+这里演示的View的处理还是基于函数的方式 ，在另一篇 [Simple Todo (Uliweb 版本) 之 基础篇](todo_basic.html)
 中有如何使用Class方式的View。
 

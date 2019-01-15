@@ -238,7 +238,7 @@ uliweb runserver
 可以看到如下的效果:
 
 
-![image](_static/first.png)
+![image](../_static/first.png)
 
 
 ## 添加数据库配置
@@ -499,7 +499,7 @@ templates中定义一个和Todo一样的目录，然后将index.html放到这个
 改完以后，再运行，结果是这个样子。
 
 
-![image](_static/view_index.png)
+![image](../_static/view_index.png)
 
 
 ## 实现新增Todo
@@ -544,14 +544,14 @@ def new(self):
 让我们输入：这是一个测试
 
 
-![image](_static/new.png)
+![image](../_static/new.png)
 
 如果我们什么都不输会怎么样？
 
 怎么回事，又报错！晕啊，程序真是不好写，Uliweb不好玩啊。先看下界面吧:
 
 
-![image](_static/error.png)
+![image](../_static/error.png)
 
 这是一个调试界面，在Uliweb中使用了werkzeug的调试器，可以在Debug状态下，当出错时
 显示出错界面，非常不错。上面的错误就是找不到error.html模板。为什么？因为我们没

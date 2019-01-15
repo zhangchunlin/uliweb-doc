@@ -1,30 +1,27 @@
 # Simple Todo (Uliweb 版本) 之 高级篇
 
 本版本是从 [http://simple-is-better.com/news/detail-309](http://simple-is-better.com/news/detail-309) 来的，并且已经使用Uliweb
-实现了一个 [基础版本](tutorial/todo_basic.html) ，不过
-这个基础版本讲述的是最基本的Uliweb的用法，因此叫基础篇。
+实现了一个 [基础版本](todo_basic.html) ，不过这个基础版本讲述的是最基本的Uliweb的用法，因此叫基础篇。
 在这个高级篇中，我希望向大家介绍更加高级一些的内容。其中有些功能要依赖于 uliweb-ui 系列模块。
 
 ## uliweb-ui 系列模块介绍
 
-因为uliweb原有的app集合项目plugs有支持的css框架过老,有点臃肿,所以uliweb3选择不兼容plugs,所以这里介绍后来发展的uliweb-ui系列模块的配合开发
+因为uliweb原有的app集合项目plugs有支持的css框架过老,比较臃肿,所以uliweb3选择不兼容plugs,所以这里介绍后来发展的uliweb-ui系列模块的配合开发
 
 1. [uliweb-ui](https://github.com/uliwebext/uliweb-ui) : 为uliweb加上常用的前端模块支持如jquery插件,select2,vuejs等等
-2. [uliweb-layout](https://github.com/uliwebext/uliweb-layout) : 为uliweb加上常用的页面布局的支持,基于[AdminLTE](https://adminlte.io/)
+2. [uliweb-layout](https://github.com/uliwebext/uliweb-layout) : 为uliweb加上常用的页面布局的支持,基于 [AdminLTE](https://adminlte.io/)
 3. [uliweb-menu](https://github.com/uliwebext/uliweb-menu) : 为uliweb加上菜单功能
 4. [uliweb-apps](https://github.com/limodou/uliweb-apps) : uliweb功能类app集合
 5. [uliweb-comui](https://github.com/zhangchunlin/uliweb-comui) : 类似于uliweb-ui (zhangchunlin维护)
 6. [uliweb-apijson](https://github.com/zhangchunlin/uliweb-apijson) : apijson的uliweb实现,加上通用的数据库后端api
 
-这些模块可以参考requirements.txt手动安装,也可以直接使用`pip install -r requirements.txt `安装
-
+这些模块可以参考requirements.txt手动安装,也可以直接使用 `pip install -r requirements.txt`安装
 
 ## 构建流程
 
-
 ### 构建初始环境
 
-在基础篇中讲过的内容，这里不再缀述。假定目前初始为$project，操作如下:
+在基础篇中讲过的内容，这里不再赘述。假定目前初始为$project，操作如下:
 
 
 ```
@@ -59,7 +56,7 @@ INSTALLED_APPS = [
 
 ## 基本布局
 
-前面我们看到，已经加入了几个app，其中 `uliweb_apijson.apijson`提供了通用的Model的CRUD(Create Read Update Delete)的后端api接口,再经过简单settings配置以后就可以提供给前端页面里用javascript直接调用了。
+前面我们看到，已经加入了几个app，其中 `uliweb_apijson.apijson` 提供了通用的Model的CRUD(Create Read Update Delete)的后端api接口,再经过简单settings配置以后就可以提供给前端页面里用javascript直接调用了。
 
 而 `uliweb_apps.site`会引入依赖的 `uliweb_layout.layout` 以提供了基本的布局。在layout中的settings.ini中有几个参数可以设置
 
@@ -162,7 +159,7 @@ uliweb syncdb
 
 ## 处理Todo
 
-之前在settings中加入了`uliweb_apijson.apijson`,为了让Todo这个model能被前端使用apijson的接口访问,还需在settings里增加一些配置,例子如下,主要是将Todo的CRUD接口让未登入访问(UNKNOWN)就能操作,对uliweb-apijson做进一步了解可以访问[github上的项目](https://github.com/zhangchunlin/uliweb-apijson)
+之前在settings中加入了`uliweb_apijson.apijson`,为了让Todo这个model能被前端使用apijson的接口访问,还需在settings里增加一些配置,例子如下,主要是将Todo的CRUD接口让未登入访问(UNKNOWN)就能操作,对uliweb-apijson做进一步了解可以访问 [github上的项目](https://github.com/zhangchunlin/uliweb-apijson)
 
 ```
 [APIJSON_MODELS]
