@@ -86,14 +86,12 @@ deployment.md
 
 {% toc max_depth=1 %}
 app_staticfiles.md
-app_soap.md
 app_auth.md
 app_rbac.md
 app_template.md
 app_upload.md
 app_csrf.md
 app_secretkey.md
-app/objcache.md
 app/recorder.md
 app/sequence.md
 app/celery.md
@@ -104,14 +102,6 @@ app/clean.md
 
 {% toc max_depth=1 %}
 uliweb_ui/apis.md
-{% endtoc %}
-
-### Plugs使用
-
-{% toc max_depth=1 %}
-plugs/apps.md
-plugs/dialog2.md
-plugs/menus.md
 {% endtoc %}
 
 ### 实用模块说明
